@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  full-stack-frontend:
+    build:
+      context: /home/spaz/demos/leumi-demo/app/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+    container_name: frontend-container
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - full-stack-backend
+    networks:
+      - fullstack-net
+
+  full-stack-backend:
+    build:
+      context: /home/spaz/demos/leumi-demo/app/backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    container_name: backend-container
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@full-stack-db:5432/postgres
+    depends_on:
+      - full-stack-db
+    networks:
+      - fullstack-net
+
+  full-stack-db:
+    image: postgres:13
+    container_name: db-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - /home/spaz/demos/leumi-demo/app/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - fullstack-net
+
+networks:
+  fullstack-net:
+    driver: bridge
+
+volumes:
+  postgres-data:
+

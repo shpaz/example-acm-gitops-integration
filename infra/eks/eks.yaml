@@ -1,0 +1,13 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eks-cluster # EKS Cluster name
+  region: us-east-2 # Region Code to place EKS Cluster
+  version: "1.28" # Updated Kubernetes version
+managedNodeGroups:
+  - name: primary # Name of node group in EKS Cluster
+    instanceType: t3.small # Instance type for node group
+    desiredCapacity: 3 # Number of worker nodes
+    minSize: 1 # Minimum number of worker nodes
+    maxSize: 5 # Maximum number of worker nodes
+

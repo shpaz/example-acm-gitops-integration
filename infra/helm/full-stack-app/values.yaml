@@ -1,0 +1,23 @@
+frontend:
+  replicaCount: 1
+  image:
+    repository: shonpaz123/fullstack-app
+    tag: frontend
+  resources: {}
+
+backend:
+  replicaCount: 1
+  image:
+    repository: shonpaz123/fullstack-app
+    tag: backend
+  resources: {}
+  env:
+    DATABASE_URL: "postgres://postgres:postgres@db:5432/postgres"
+
+db:
+  postgresUser: postgres
+  postgresPassword: postgres
+  postgresDatabase: myappdb
+  resources: {}
+
+
